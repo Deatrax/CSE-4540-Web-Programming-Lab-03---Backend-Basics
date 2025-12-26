@@ -10,8 +10,8 @@ const app = express();
 
 // Middleware
 app.use(cors());
-app.use(express.json()); // Allows us to parse JSON bodies
-// In server.js, under app.use(express.json())
+app.use(express.json());
+
 app.use(express.static('public'));
 
 // Database Connection

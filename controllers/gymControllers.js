@@ -8,7 +8,7 @@ const Schedule = require('../models/scheduleModel');
 // @route GET /api/users
 const getUsers = async (req, res) => {
     try {
-        // [cite: 25] Optional filters: active status, membership type
+      
         const { active, membershipType } = req.query;
         const query = {};
         if (active) query.active = active === 'true';
@@ -25,7 +25,7 @@ const getUsers = async (req, res) => {
 // @route POST /api/users
 const createUser = async (req, res) => {
     try {
-        const user = await User.create(req.body); // [cite: 24]
+        const user = await User.create(req.body); 
         res.status(201).json(user);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -38,7 +38,7 @@ const createUser = async (req, res) => {
 // @route GET /api/trainers
 const getTrainers = async (req, res) => {
     try {
-        // [cite: 39] Optional filters: specialization
+        
         const { specialization } = req.query;
         const query = {};
         if (specialization) query.specialization = specialization;
@@ -54,14 +54,14 @@ const getTrainers = async (req, res) => {
 // @route POST /api/trainers
 const createTrainer = async (req, res) => {
     try {
-        const trainer = await Trainer.create(req.body); // [cite: 38]
+        const trainer = await Trainer.create(req.body); 
         res.status(201).json(trainer);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 };
 
-// --- COMPLEX: WORKOUT SCHEDULING SYSTEM [cite: 46] ---
+// --- COMPLEX: WORKOUT SCHEDULING SYSTEM  ---
 
 // @desc Schedule a workout
 // @route POST /api/schedule
@@ -69,7 +69,7 @@ const scheduleWorkout = async (req, res) => {
     const { userId, trainerId, workoutType, scheduledTime } = req.body;
 
     try {
-        // 1. Validate User & Membership [cite: 53, 63]
+        // 1. Validate User & Membership
         const user = await User.findById(userId);
         if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -79,7 +79,7 @@ const scheduleWorkout = async (req, res) => {
             });
         }
 
-        // 2. Validate Trainer Availability [cite: 52, 64]
+        // 2. Validate Trainer Availability
         const trainer = await Trainer.findById(trainerId);
         if (!trainer) return res.status(404).json({ message: "Trainer not found" });
 
@@ -87,7 +87,7 @@ const scheduleWorkout = async (req, res) => {
             return res.status(400).json({ message: "Trainer is currently unavailable." });
         }
         
-        // BONUS: Check for conflicting schedules [cite: 54, 65]
+        // BONUS: Check for conflicting schedules 
         const existingSession = await Schedule.findOne({
             trainer: trainerId,
             scheduledTime: new Date(scheduledTime)
@@ -96,7 +96,7 @@ const scheduleWorkout = async (req, res) => {
             return res.status(409).json({ message: "Trainer is already booked at this time." });
         }
 
-        // 3. Create Schedule Record [cite: 66]
+        // 3. Create Schedule Record
         const session = await Schedule.create({
             user: userId,
             trainer: trainerId,
@@ -107,7 +107,7 @@ const scheduleWorkout = async (req, res) => {
         res.status(201).json({
             success: true,
             data: session,
-            message: "Workout scheduled successfully!" // [cite: 67]
+            message: "Workout scheduled successfully!"
         });
 
     } catch (error) {

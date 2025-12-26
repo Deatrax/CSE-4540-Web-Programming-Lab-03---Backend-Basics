@@ -4,20 +4,20 @@ const scheduleSchema = mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'User' // [cite: 56]
+        ref: 'User'  
     },
     trainer: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Trainer' // [cite: 57]
+        ref: 'Trainer' 
     },
     workoutType: {
         type: String,
-        required: true // [cite: 59]
+        required: true 
     },
     scheduledTime: {
         type: Date,
-        required: true // [cite: 58]
+        required: true 
     },
     status: {
         type: String,
